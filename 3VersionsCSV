@@ -1,0 +1,44 @@
+--------------------------version avec accumulateur String --------------------------
+def decomposition(fichier: String): String = {
+  val bufferedSource = io.Source.fromFile(fichier)
+  val lignes = bufferedSource.getLines()
+@tailrec
+def lireCSV(l : Iterator[String] = lignes, acc: String = ""): String = l match {
+
+  case x if !x.hasNext => acc
+  case x => lireCSV(x, acc + x.next().split(",").map(x => x.trim).mkString("[", ", ", "]"))
+
+}
+lireCSV()}
+
+
+----------------version ligne par ligne en String
+def decomposition(fichier: String): String = {
+  val bufferedSource = io.Source.fromFile(fichier)
+  val lignes = bufferedSource.getLines()
+def lireCSV(l : Iterator[String] = lignes, acc: String = ""): String = l match {
+  case x if x.hasNext => println(x.next().split(",").map(x => x.trim).mkString("List(", ", ", ")")) + lireCSV(x)
+
+}
+lireCSV()}
+
+
+--------------------------version qu'on peut appeler avec head ou tail
+def decomposition(fichier: String): List[Serializable] = {
+  val bufferedSource = io.Source.fromFile(fichier)
+  val lignes = bufferedSource.getLines()
+  @tailrec
+  def lireCSV(l : Iterator[String] = lignes, acc: List[Serializable] = Nil): List[Serializable] = l match {
+
+    case x if !x.hasNext => acc
+    case x => lireCSV(x, acc ::: List((x.next().split(",").map(x => x.trim).toList)))
+
+  }
+  lireCSV()}
+
+
+print(decomposition("C:\\Users\\kevin\\Desktop\\Labs2\\sales1.csv"))
+
+
+
+
